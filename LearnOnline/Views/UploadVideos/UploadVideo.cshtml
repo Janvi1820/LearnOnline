@@ -1,0 +1,172 @@
+﻿@model LearnOnline.Models.UploadVideos
+
+@{
+    ViewData["Title"] = "Upload Videos";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .upload-video-form {
+            width: 70%;
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: block;
+            width: 150px;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+            .btn img {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
+            .btn:hover {
+                background: #333;
+                transform: scale(1.05);
+            }
+
+        .details-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .details-form {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+       /*  .video-preview {
+            width: fit-content;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background:white;
+        } */
+
+        #videoPreview {
+            width: fit-content;
+            height: fit-content;
+            border: none;
+        }
+
+        .form-actions {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upload-video-form">
+        <h1>Upload Videos</h1>
+        <div class="details-container">
+            <div class="details-form">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="Courses">All Courses</label>
+                        <select class="form-control" asp-for="Courses">
+                            <option value="">--select--</option>
+                            @foreach (var course in ViewBag.Courses)
+                            {
+                                <option value="@course.Name">@course.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TopicName">Topic Name</label>
+                        <input type="text" asp-for="TopicName" class="form-control" id="TopicName"
+                               placeholder="Enter Topic Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="VideoFile">Upload Video</label>
+                        <input type="file" asp-for="VideoFile" class="form-control" id="VideoFile">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="YouTubeLink">Upload URL</label>
+                        <input type="text" asp-for="YouTubeLink" class="form-control" id="YouTubeLink"
+                               placeholder="Enter YouTube Link" oninput="showVideoPreview()">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/upload.png" alt="Upload Icon">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="video-preview">
+                <iframe id="videoPreview" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showVideoPreview() {
+            const link = document.getElementById('YouTubeLink').value;
+            const iframe = document.getElementById('videoPreview');
+            iframe.src = link;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - LearnOnline</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LearnDigitally.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Custom styles for the navigation bar */
+        body.shree {
+            background: url('/Content/images/Screenshot 2024-07-04 220727.png') no-repeat center left;
+            background-size: 50%;
+        }
+
+        .navbar-custom {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            padding: 0.5em 1em;
+        }
+
+            .navbar-custom .navbar-brand {
+                font-size: 1.5em;
+                font-weight: bold;
+                color: #e12b2b; /* Udemy red */
+            }
+
+            .navbar-custom .nav-link {
+                color: #333;
+                font-size: 1em;
+                padding: 0.75em 1em;
+                font-weight: 500;
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: #007bff;
+                }
+
+            .navbar-custom .dropdown-menu {
+                border-radius: 0;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                font-size: 0.9em;
+            }
+
+            .navbar-custom .dropdown-item {
+                padding: 0.5em 1.5em;
+            }
+
+                .navbar-custom .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                }
+
+            .navbar-custom .search-box {
+                width: 300px;
+                border-radius: 50px;
+                padding: 0.5em 1em;
+                border: 1px solid #ddd;
+            }
+
+            .navbar-custom .btn-outline-success {
+                border-color: #ddd;
+                color: #333;
+                border-radius: 50px;
+            }
+
+                .navbar-custom .btn-outline-success:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                    border-color: #007bff;
+                }
+    </style>
+</head>
+
+<body class="@((Context.Session.GetString("myuser") == null) ? "shree" : "")">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="UploadVideos" asp-action="ShowCourses">
+                    <i class="fa-brands fa-leanpub"></i> LearnOnline
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    @if (Context.Session.GetString("myuser") != null)
+                    {
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Courses
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="coursesDropdown" id="coursesList">
+                                    <!-- Courses will be loaded dynamically here -->
+                                </ul>
+                            </li>
+
+                            @if (Context.Session.GetString("Role") == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UploadVideos" asp-action="UploadVideo">Upload Videos</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UploadVideos" asp-action="showvideos">My All Courses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="AddCourse">Add Courses</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Userside" asp-action="AllCourses">LearnOnline Courses</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Userside" asp-action="Mycourses">My Courses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Userside" asp-action="ShowVideos">Videos</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <form class="d-flex ms-auto">
+                            <input class="form-control me-2 search-box" type="search" placeholder="Search for courses" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+
+                        <ul class="navbar-nav ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Sign In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignUp">Sign Up</a>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Course details will be loaded dynamically here -->
+            </div>
+        </div>
+    </div>
+
+    @if (Context.Session.GetString("myuser") != null)
+    {
+
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $.getJSON("/Course/GetAllCourses", function (data) {
+                var coursesList = $('#coursesList');
+                coursesList.empty();
+                $.each(data, function (index, course) {
+                    coursesList.append('<li><a class="dropdown-item course-item" href="#" data-id="' + course.id + '">' + course.name + '</a></li>');
+                });
+
+                $('.course-item').on('click', function (e) {
+                    e.preventDefault();
+                    var courseId = $(this).data('id');
+                    $.get("/Course/GetCourseDetails/" + courseId, function (data) {
+                        $('.modal-content').html(data);
+                        $('#courseModal').modal('show');
+                    });
+                });
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

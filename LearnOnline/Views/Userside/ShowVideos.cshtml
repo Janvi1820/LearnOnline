@@ -1,0 +1,161 @@
+﻿@model IEnumerable<LearnOnline.Models.Upload>
+
+@{
+    ViewData["Title"] = "Course Videos";
+}
+
+<h2>@ViewBag.Course.Name - Videos</h2>
+
+<div class="video-page">
+   
+    <div class="video-player">
+        <iframe id="mainVideoPlayer" class="video-frame" width="100%" height="480" src="@Model.FirstOrDefault()?.YouTubeLink" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        
+        <div id="videoTitle" class="video-title">@Model.FirstOrDefault()?.TopicName</div>
+    </div>
+    
+
+    <div class="related-videos-container">
+        <div class="related-videos">
+            @foreach (var upload in Model)
+            {
+                <div class="video-card" onclick="playVideo('@upload.YouTubeLink', '@upload.TopicName')">
+                    <div class="video-thumbnail">
+                        <iframe class="video-frame" width="100%" height="100" src="@upload.YouTubeLink" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-details">
+                        <h3>@upload.TopicName</h3>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f6ff;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+    }
+
+    .rr {
+        flex: 30%;
+        padding-left: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2em;
+        color: #343a40;
+    }
+
+    .video-page {
+        display: flex;
+        margin: 20px;
+    }
+
+    .video-player {
+        flex: 70%;
+        padding-right: 20px;
+    }
+
+    .video-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+        color: #007bff;
+    }
+
+    .related-videos-container {
+        flex: 30%;
+        padding-left: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .related-videos {
+        overflow-y: auto;
+        max-height: 600px;
+        padding: 10px;
+    }
+
+    .video-card {
+        display: flex;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .video-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+    .video-thumbnail {
+        width: 40%;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .video-details {
+        padding: 10px;
+        flex: 60%;
+    }
+
+        .video-details h3 {
+            margin: 0;
+            font-size: 1em;
+            color: #343a40;
+        }
+
+    .selected-video {
+        border-color: #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+    .video-frame {
+        border-radius: 8px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .video-frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+</style>
+
+<script>
+    function playVideo(videoUrl, videoTitle) {
+        // Update the main video player src attribute
+        document.getElementById('mainVideoPlayer').src = videoUrl;
+
+        // Update the video title
+        document.getElementById('videoTitle').innerText = videoTitle;
+
+        // Highlight the selected video card
+        var videoCards = document.getElementsByClassName('video-card');
+        for (var i = 0; i < videoCards.length; i++) {
+            videoCards[i].classList.remove('selected-video');
+        }
+
+        // Find and highlight the selected video card
+        event.currentTarget.classList.add('selected-video');
+    }
+</script>

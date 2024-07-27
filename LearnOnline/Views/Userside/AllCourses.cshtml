@@ -1,0 +1,173 @@
+﻿@model IEnumerable<LearnOnline.Models.Course>
+
+@{
+    ViewData["Title"] = "All Courses";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LearnOnline</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Page Title */
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Course Grid */
+        .course-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 20px;
+        }
+
+        .course-box {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+            .course-box:hover {
+                transform: translateY(-5px);
+            }
+
+        .course-thumbnail {
+            height: 180px;
+            overflow: hidden;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+            .course-thumbnail img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .course-info {
+            padding: 15px;
+            position: relative;
+        }
+
+            .course-info h4 {
+                font-size: 1.25em;
+                margin-bottom: 10px;
+                color: #000;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .course-info p {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+                color: #666;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+                .course-info p.more {
+                    display: block;
+                    -webkit-line-clamp: initial;
+                    -webkit-box-orient: unset;
+                    height: auto;
+                }
+
+            .course-info h3 {
+                font-size: 1.2em;
+                color: #333;
+                font-weight: bold;
+            }
+
+        .read-more {
+            display: block;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .course-box form {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .course-box button {
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+            .course-box button:hover {
+                background-color: #cc0000;
+            }
+
+            .course-box button i {
+                margin-right: 8px;
+            }
+    </style>
+    <script>
+        function toggleReadMore(element) {
+            const description = element.previousElementSibling;
+            description.classList.toggle("more");
+            element.textContent = description.classList.contains("more") ? "Read Less" : "Read More";
+        }
+    </script>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2>All Courses</h2>
+
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-info">
+                @TempData["message"]
+            </div>
+        }
+
+        <div class="course-boxes">
+            @foreach (var course in Model)
+            {
+                <div class="course-box">
+                    <div class="course-thumbnail">
+                        <img src="/@course.Thumbnail" alt="@course.Name" />
+                    </div>
+                    <div class="course-info">
+                        <h4>@course.Name</h4>
+                        <p>@course.Description</p>
+                        <span class="read-more" onclick="toggleReadMore(this)">Read More</span>
+                        <h3><strong>$@course.Price</strong></h3>
+                    </div>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="courseId" value="@course.Id" />
+                        <button type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

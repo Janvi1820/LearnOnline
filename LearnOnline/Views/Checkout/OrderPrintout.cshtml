@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Order Printout";
+}
+
+<h2>Order Summary</h2>
+
+<p><strong>Payment ID:</strong> @ViewBag.PaymentId</p>
+<p><strong>Order ID:</strong> @ViewBag.OrderId</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.PurchasedItems)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p><strong>Total Amount:</strong> @ViewBag.TotalAmount</p>

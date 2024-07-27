@@ -1,0 +1,62 @@
+﻿@model IEnumerable<LearnOnline.Models.Upload>
+
+@{
+    ViewData["Title"] = "Videos";
+}
+
+<h2>@ViewBag.Course.Name - Videos</h2>
+<p>@ViewBag.Course.Description</p>
+
+<!-- Videos Section -->
+<div class="videos">
+    @foreach (var item in Model)
+    {
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <iframe width="100%" height="180" src="@item.YouTubeLink" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-details">
+                <h3>@item.TopicName</h3>
+                <p>@item.Courses</p>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Styles -->
+<style>
+    .videos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .video-card {
+        width: 23%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-thumbnail {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .video-details {
+        padding: 10px;
+    }
+
+        .video-details h3 {
+            margin: 0 0 10px;
+            font-size: 1.25em;
+        }
+
+        .video-details p {
+            margin: 0 0 5px;
+        }
+</style>

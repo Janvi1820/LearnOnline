@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Payment Success";
+}
+
+<h2>Payment Successful!</h2>
+<p>Your payment has been processed successfully.</p>
+
+<button id="downloadInvoice">Download Invoice</button>
+
+<script>
+    document.getElementById('downloadInvoice').addEventListener('click', function () {
+        const { jsPDF } = window.jspdf;
+
+        // Create a new jsPDF instance
+        const doc = new jsPDF();
+
+        // Add content to the PDF
+        doc.text('Invoice', 10, 10);
+        doc.text('Thank you for your purchase!', 10, 20);
+        doc.text('Order Details:', 10, 30);
+        doc.text('----------------------------', 10, 40);
+
+        // Add cart items
+        var cartItems = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.CartItems));
+        var yPos = 50;
+        cartItems.forEach(item => {
+            doc.text(`Course: ${item.Name}`, 10, yPos);
+            doc.text(`Price: ${item.Price}`, 10, yPos + 10);
+            yPos += 20;
+        });
+
+        doc.text('----------------------------', 10, yPos);
+        doc.text(`Total Price: ${ViewBag.TotalPrice}`, 10, yPos + 10);
+
+        // Save the PDF
+        doc.save('invoice.pdf');
+    });
+</script>

@@ -1,0 +1,182 @@
+﻿@model IEnumerable<LearnOnline.Models.Course>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    List<int> purchasedCourses = ViewBag.PurchasedCourses as List<int> ?? new List<int>();
+    List<int> cartCourses = ViewBag.CartCourses as List<int> ?? new List<int>();
+}
+
+<h2>Shopping Cart</h2>
+
+<p>@cartCourses.Count() Courses in Cart</p>
+
+<div class="course-boxes">
+    @foreach (var course in Model)
+    {
+        <div class="course-box d-flex align-items-center justify-content-between">
+            <div class="course-thumbnail">
+                <img src="/@course.Thumbnail" alt="@course.Name" />
+            </div>
+            <div class="course-info">
+                <h4>@course.Name</h4>
+                <p>By Author</p>
+                <div class="ratings">
+                    <span class="badge">Updated Recently</span>
+                    <span class="rating">Rating <i class="fa fa-star"></i> (RatingCount ratings)</span>
+                </div>
+                <p class="course-hours">TotalHours total hours • LecturesCount lectures • All Levels</p>
+            </div>
+            <div class="course-actions">
+                @if (purchasedCourses.Contains(course.Id))
+                {
+                    <a asp-controller="Userside" asp-action="ShowVideos" asp-route-courseId="@course.Id" class="btn btn-success mb-2">Watch Now</a>
+                }
+                else if (cartCourses.Contains(course.Id))
+                {
+                    <form asp-action="RemoveFromCart" method="post" class="mb-2">
+                        <input type="hidden" name="courseId" value="@course.Id" />
+                        <button type="submit" class="delete-button">✖</button>
+                    </form>
+                    <a href="#" class="save-later">Save for Later</a>
+                }
+                else
+                {
+                    <form asp-action="AddToCart" method="post" class="mb-2">
+                        <input type="hidden" name="courseId" value="@course.Id" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                }
+            </div>
+            <div class="course-price">
+                <h3>₹@course.Price</h3>
+            </div>
+        </div>
+    }
+</div>
+
+@if (cartCourses.Any(c => !purchasedCourses.Contains(c)))
+{
+    <form asp-action="BuyNow" method="post" class="buy-now-form">
+        <button type="submit" class="btn btn-primary mt-3">Checkout</button>
+    </form>
+}
+
+<style>
+    h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+    }
+
+    .course-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .course-box {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        padding: 10px;
+    }
+
+        .course-box:hover {
+            transform: scale(1.05);
+        }
+
+    .course-thumbnail {
+        flex-shrink: 0;
+        height: 150px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+        .course-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .course-info {
+        flex-grow: 1;
+        padding: 10px;
+        color: black;
+    }
+
+    .course-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .course-price {
+        display: flex;
+        align-items: center;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .ratings {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .badge {
+        background-color: #28a745;
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 3px;
+        margin-right: 10px;
+    }
+
+    .rating {
+        font-size: 1em;
+        color: #ff9800;
+    }
+
+    .course-hours {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+
+    .delete-button {
+        background-color: transparent;
+        border: none;
+        color: #dc3545;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+        .delete-button:hover {
+            color: #c82333;
+        }
+
+    .save-later {
+        color: #007bff;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+        .save-later:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+</style>

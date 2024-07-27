@@ -1,0 +1,19 @@
+﻿@model List<(string VideoId, string Title)>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>YouTube Playlist</title>
+</head>
+<body>
+    <h1>YouTube Playlist</h1>
+    @foreach (var video in Model)
+    {
+        <div>
+            <h2>@video.Title</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/@video.VideoId" frameborder="0" allowfullscreen></iframe>
+        </div>
+    }
+</body>
+</html>

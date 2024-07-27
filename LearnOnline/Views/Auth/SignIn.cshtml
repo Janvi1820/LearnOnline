@@ -1,0 +1,190 @@
+﻿@model LearnOnline.Models.Login
+
+@{
+    ViewData["Title"] = "SignIn";
+}
+
+<div class="udemy-full-page-container">
+    <div class="udemy-login-wrapper">
+        <div class="udemy-image-container">
+            @* <img src="/Content/Images/Screenshot 2024-07-04 220727.png" alt="Udemy Login Image" class="udemy-login-image" /> *@
+        </div>
+        <div class="udemy-login-form-container">
+            <h1 class="udemy-login-title" style=""><b>LOGIN TO YOUR<br /> <br /> LEARN ONLINE ACCOUNT</b></h1>
+            <div class="udemy-login-form-wrapper">
+                <form asp-action="SignIn" method="post" class="udemy-login-form">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["Error"]</div>
+                    }
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="udemy-form-label"></label>
+                        <input asp-for="Email" class="form-control udemy-input" style=" height : 60px" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="udemy-form-label"></label>
+                        <input asp-for="Password" class="form-control udemy-input" type="password" style=" height : 60px" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Log in" class="btn btn-primary udemy-submit-btn" style=" height : 50px" />
+                    </div>
+                    <div class="form-group text-center">
+                        <a href="#" class="udemy-forgot-password">Forgot Password</a>
+                    </div>
+                    <div class="form-group text-center">
+                        <span>Other log in options</span>
+                    </div>
+                    <div class="form-group udemy-social-login">
+                        <a asp-controller="Auth" asp-action="GoogleLogin" class="btn btn-light udemy-google-btn">
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="udemy-social-logo" />
+                        </a>
+                        @*  <a href="#" class="btn btn-light udemy-facebook-btn">
+                        <img src="your-facebook-logo-url" alt="Facebook Logo" class="udemy-social-logo" />
+                        </a>
+                        <a href="#" class="btn btn-light udemy-apple-btn">
+                        <img src="your-apple-logo-url" alt="Apple Logo" class="udemy-social-logo" />
+                        </a> *@
+                    </div>
+                </form>
+            </div>
+            <div class="text-center mt-3">
+                <span> No any account? <a asp-action="SignUp">Sign Up</a></span>
+            </div>
+            @*  <div class="text-center mt-3">
+            <a href="#">Log in with your organization</a>
+            </div> *@
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<style>
+    .udemy-full-page-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: transparent;
+    }
+
+    .udemy-login-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1200px;
+        background-color: transparent;
+        /*  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .udemy-image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+    }
+
+    .udemy-login-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .udemy-login-form-container {
+        flex: 1;
+        padding: 2rem;
+    }
+
+    .udemy-login-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .udemy-form-label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .udemy-input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .udemy-submit-btn {
+        width: 100%;
+        padding: 0.5rem;
+        background-color: #5624d0;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+
+    .udemy-forgot-password {
+        display: block;
+        margin-top: 1rem;
+        color: #5624d0;
+        text-decoration: none;
+    }
+
+        .udemy-forgot-password:hover {
+            text-decoration: underline;
+        }
+
+    .udemy-social-login {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .udemy-google-btn,
+    .udemy-facebook-btn,
+    .udemy-apple-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #dcdcdc;
+        background-color: #ffffff;
+        border-radius: 50%;
+    }
+
+    .udemy-social-logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .udemy-google-btn:hover,
+    .udemy-facebook-btn:hover,
+    .udemy-apple-btn:hover {
+        background-color: #f1f1f1;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mt-3 {
+        margin-top: 1rem;
+    }
+
+    /* .form-group {
+
+            margin-bottom :15px; */
+    /*  height : 70px; */
+    }
+</style>

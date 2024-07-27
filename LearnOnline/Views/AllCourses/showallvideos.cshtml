@@ -1,0 +1,115 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<LearnOnline.Models.Upload>
+
+@{
+    ViewData["Title"] = "showallvideos";
+}
+
+<h2>Development Courses</h2>
+<p>Courses to get you started</p>
+<p>Explore courses from experienced, real-world experts.</p> 
+
+<!-- Course Tabs -->
+<div class="course-tabs">
+    <ul>
+        <li class="@(string.IsNullOrEmpty(ViewBag.SelectedCourse) ? "active" : "")">
+            <a href="@Url.Action("showallvideos", new { selectedCourse = "" })">All Courses</a>
+        </li>
+        @foreach (var course in ViewBag.Courses as List<string>)
+        {
+            <li class="@(ViewBag.SelectedCourse == course ? "active" : "")">
+                <a href="@Url.Action("showallvideos", new { selectedCourse = course })">@course</a>
+            </li>
+        }
+    </ul>
+</div>
+
+<!-- Videos Section -->
+@* <div class="videos">
+    @foreach (var item in Model)
+    {
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <iframe width="100%" height="180" src="@item.YouTubeLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div> 
+            <div class="video-details">
+                <h3>@item.TopicName</h3>
+                <p>@item.Courses</p>
+                <p><strong>Instructor Name</strong></p> <!-- Replace with actual instructor name if available -->
+                <p><strong>Rating</strong> (Number of Reviews)</p> <!-- Replace with actual rating and reviews if available -->
+                <p>₹<strong>Price</strong></p>
+                <!-- Replace with actual price if available -->
+
+                <div class="add-to-cart">
+                    <!-- Add to Cart button/link -->
+                    <a href="#">Add to Cart</a>
+                </div>
+            </div> 
+        </div>
+    }
+</div> *@
+
+<!-- Styles -->
+<style>
+    .course-tabs ul {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .course-tabs li {
+        margin-right: 10px;
+    }
+
+    .course-tabs a {
+        text-decoration: none;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: #333;
+    }
+
+    .course-tabs .active a {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .videos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .video-card {
+        width: 23%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-thumbnail {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .video-details {
+        padding: 10px;
+    }
+
+        .video-details h3 {
+            margin: 0 0 10px;
+            font-size: 1.25em;
+        }
+
+        .video-details p {
+            margin: 0 0 5px;
+        }
+</style>
